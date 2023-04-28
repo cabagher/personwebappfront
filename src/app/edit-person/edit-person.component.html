@@ -1,0 +1,43 @@
+<body>
+<mat-card>
+<form class="form-margin" [formGroup]="personForm" (ngSubmit)="editPerson()">
+    <mat-form-field>
+      <mat-label>Id</mat-label>
+      <input type="text" matInput [formControl]="idFormControl" placeholder="Ex. 1234">
+      <mat-error *ngIf="idFormControl.hasError('pattern') && !idFormControl.hasError('required')">
+        Id invalid: only accepts integer (up to 6 digits)
+      </mat-error>
+      <mat-error *ngIf="idFormControl.hasError('required')">
+        Id is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    
+    <mat-form-field class="form-field-margin">
+      <mat-label>Name</mat-label>
+      <input type="text" matInput [formControl]="nameFormControl" placeholder="Ex. 14">
+      <mat-error *ngIf="nameFormControl.hasError('pattern') && !nameFormControl.hasError('required')">
+        Name invalid
+      </mat-error>
+      <mat-error *ngIf="nameFormControl.hasError('required')">
+        Name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-field-margin">
+        <mat-label>Age</mat-label>
+        <input type="text" matInput [formControl]="ageFormControl" placeholder="Ex. 14">
+        <mat-error *ngIf="ageFormControl.hasError('pattern') && !ageFormControl.hasError('required')">
+          Age invalid: only accepts integer (up to 3 digits)
+        </mat-error>
+        <mat-error *ngIf="ageFormControl.hasError('required')">
+          Age is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-card-footer>
+        <button mat-stroked-button color="primary" [disabled]="!idFormControl.valid || !ageFormControl.valid" type="submit">Edit Person</button>
+      </mat-card-footer>
+  </form>
+  {{error}}
+</mat-card>
+  
+</body>

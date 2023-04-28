@@ -1,0 +1,93 @@
+<body>
+  <mat-tab-group>
+    <mat-tab label="Search Person By Id">
+      <mat-card>
+        <mat-card-content>
+          <form [formGroup]="idForm" (ngSubmit)="getPersonById()">
+            <div>
+              <mat-form-field>
+                <mat-label>Id</mat-label>
+                <input type="text" matInput [formControl]="idFormControl" placeholder="Ex. 1234">
+                <mat-error *ngIf="idFormControl.hasError('pattern') && !idFormControl.hasError('required')">
+                  Id invalid: only accepts integer (up to 6 digits)
+                </mat-error>
+                <mat-error *ngIf="idFormControl.hasError('required')">
+                  Id is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div>
+              <mat-card-footer>
+                <button mat-stroked-button color="primary" [disabled]="!idFormControl.valid"
+                  type="submit">Search</button>
+              </mat-card-footer>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-content>
+          <div *ngIf="person!=undefined && !hasError(person); else elseBlock">Person Found: <br>
+            Id: {{person['id']}} Age: {{person['age']}} </div>
+          <ng-template #elseBlock>{{person}}</ng-template>
+        </mat-card-content>
+      </mat-card>
+    </mat-tab>
+
+
+
+    <mat-tab label="Get All People">
+
+      <mat-card>
+        <button class="padding-button" mat-stroked-button color="primary" (click)="getAllPeople()">Get All
+          People</button>
+      </mat-card>
+      <div class="mat-elevation-z8">
+
+        <table mat-table [dataSource]="dataSource">
+          <!-- Position Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> Id </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+          </ng-container>
+
+
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+
+          <!-- Age Column -->
+          <ng-container matColumnDef="age">
+            <th mat-header-cell *matHeaderCellDef> Age </th>
+            <td mat-cell *matCellDef="let element"> {{element.age}} </td>
+          </ng-container>
+
+
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+          aria-label="Select page of people">
+        </mat-paginator>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+
+
+
+
+  <div *ngFor="let item of test; let I=index;">
+    <!--
+    <div *ngModel>
+    </div>
+    -->
+    {{item.id + " " + item.age}}
+
+
+  </div>
